@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fake Chat Detector</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white flex items-center justify-center min-h-screen">
+
+<div class="bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-2xl w-[400px] text-center border border-white/20">
+
+    <h1 class="text-3xl font-bold mb-4">Fake Chat Detector 🔍</h1>
+    <p class="text-gray-300 mb-4">Upload screenshot to detect manipulation</p>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <input type="file" name="image"
+        class="mb-4 w-full text-sm text-gray-300
+        file:mr-4 file:py-2 file:px-4
+        file:rounded-lg file:border-0
+        file:bg-blue-600 file:text-white
+        hover:file:bg-blue-700"/>
+
+        <button type="submit"
+        class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg w-full transition">
+            Upload & Analyze
+        </button>
+    </form>
+
+    {% if image_url %}
+        <p class="mt-4 text-sm text-gray-400">Original Image:</p>
+        <img src="{{ image_url }}" class="mt-2 rounded-lg"/>
+    {% endif %}
+
+    {% if ela_url %}
+        <p class="mt-4 text-sm text-gray-400">ELA Result:</p>
+        <img src="{{ ela_url }}" class="mt-2 rounded-lg"/>
+    {% endif %}
+
+    {% if fake_score %}
+        <p class="mt-4 text-lg font-semibold">
+            Fake Probability: {{ fake_score }}%
+        </p>
+    {% endif %}
+
+    {% if verdict %}
+      {% if verdict == "Likely Real ✅" %}
+    <p class="mt-2 text-xl font-bold text-green-400">{{ verdict }}</p>
+{% elif verdict == "Suspicious ⚠️" %}
+    <p class="mt-2 text-xl font-bold text-yellow-400">{{ verdict }}</p>
+{% else %}
+    <p class="mt-2 text-xl font-bold text-red-400">{{ verdict }}</p>
+{% endif %}
+        
+        
+    {% endif %}
+
+    {% if verdict %}
+        <p class="text-sm text-gray-400 mt-2">
+            Analysis based on compression inconsistencies (ELA)
+        </p>
+    {% endif %}
+    {% if reason %}
+    <p class="text-sm text-gray-400 mt-2">
+        {{ reason }}
+    </p>
+{% endif %}
+
+</div>
+
+</body>
+</html>
