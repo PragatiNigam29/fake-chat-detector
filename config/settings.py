@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-vlek5m3oib8x$+m%#67u33tyv=nf$vqpgx#3zqbi*k8-2n&3l7
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['https://fake-chat-detector.onrender.com']
 
 
 # Application definition
